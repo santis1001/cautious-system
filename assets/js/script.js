@@ -1,3 +1,6 @@
+var view_score = document.querySelector("#vw_hs");
+var view_time = document.querySelector("#vw_tm");
+
 var doc_start = document.querySelector("#start");
 var btn_start = document.querySelector("#start_btn");
 
@@ -13,6 +16,7 @@ var doc_answer = document.querySelector("#answer");
 var doc_state = document.querySelector("#state");
 
 var doc_intial = document.querySelector("#user");
+var doc_score = document.querySelector("#user_score");
 var txt_intial = document.querySelector("#user-initial");
 var btn_submit = document.querySelector("#user-submit");
 
@@ -20,6 +24,8 @@ var doc_highscore = document.querySelector("#highscore");
 var list_score = document.querySelector("#hs_list");
 var btn_restart = document.querySelector("#restart");
 var btn_clear = document.querySelector("#clear");
+
+var active_doc ;
 
 var q1 = {
     question:"What is the syntax for declaring a variable in JavaScript?",
@@ -52,23 +58,30 @@ var act_q = 0;
 var questions ;
 
 var score=0;
-var time_score=59;
+var time_score=60;
+var final_score=0;
+var scoretimer;
+view_time.textContent = "Time: "+time_score
 
-doc_start.setAttribute("style", "display:block;");
+doc_start.setAttribute("style", "display:flex;");
+active_doc = doc_start;
 
 btn_start.addEventListener("click", function (event) {
     doc_start.setAttribute("style", "display:none;");
     doc_quiz.setAttribute("style", "display:flex;");
-    
+    active_doc = doc_quiz;
     setQuestion();
-
+    start_timer();
 });
 
 btn_opt1.addEventListener("click", function(event){
     if(questions[0] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
+        score = score+10;
+        time_score = time_score + 7;
     }else{
         doc_state.textContent = "Wrong :c";
+        time_score = time_score - 7;
     }
 
     sleep();
@@ -76,8 +89,11 @@ btn_opt1.addEventListener("click", function(event){
 btn_opt2.addEventListener("click", function(event){
     if(questions[1] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
+        score = score+10;
+        time_score = time_score + 7;
     }else{
         doc_state.textContent = "Wrong :c";
+        time_score = time_score - 7;
     }
     sleep();
 
@@ -85,18 +101,49 @@ btn_opt2.addEventListener("click", function(event){
 btn_opt3.addEventListener("click", function(event){
     if(questions[2] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
+        score = score+10;
+        time_score = time_score + 7;
     }else{
         doc_state.textContent = "Wrong :c";
+        time_score = time_score - 7;
     }
     sleep();
 });
 btn_opt4.addEventListener("click", function(event){
     if(questions[3] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
+        score = score+10;
+        time_score = time_score + 7;
     }else{
         doc_state.textContent = "Wrong :c";
+        time_score = time_score - 7;
     }
     sleep();
+});
+btn_submit.addEventListener("click", function(event){
+    var initials = txt_intial.value;
+    console.log(initials);
+
+    doc_intial.setAttribute("style", "display:none;");
+    doc_highscore.setAttribute("style", "display:flex;");
+    active_doc = doc_highscore;
+
+});
+view_score.addEventListener("click", function(event){
+    active_doc.setAttribute("style","display:none;");
+    doc_highscore.setAttribute("style","display:flex;");
+    active_doc = doc_highscore;
+
+    clearInterval(scoretimer);
+});
+btn_restart.addEventListener("click", function(event){
+    doc_highscore.setAttribute("style","display:none;");
+    doc_start.setAttribute("style","display:flex;");
+    active_doc = doc_start;
+    restartquiz();
+});
+btn_clear.addEventListener("click", function(){
+
 });
 
 function setQuestion(){
@@ -135,9 +182,37 @@ function sleep(){
     if(act_q<5){
         setQuestion();
     }else{
+        clearInterval(scoretimer);
         console.log("Out");
         doc_quiz.setAttribute("style", "display:none;");
         doc_intial.setAttribute("style", "display:flex;");
+        active_doc=doc_intial;
+        final_score = score+time_score;
+        doc_score.textContent = "Final Score: "+final_score;
     }
 }
+function start_timer(){
+    
+    scoretimer = setInterval(function () {
+        if(time_score<=0){
+            doc_quiz.setAttribute("style", "display:none;");
+            doc_intial.setAttribute("style", "display:flex;");
+            clearInterval(scoretimer)
+        }else{
+            view_time.textContent = "Time: "+time_score
+        }         
+        time_score--;
+    },1000);    
+}
+function restartquiz(){
+    act_q = 0;
+    
+    
+    score=0;
+    time_score=60;
+    final_score=0;    
 
+    view_time.textContent = "Time: "+time_score
+    clearInterval(scoretimer);
+
+}
