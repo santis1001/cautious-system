@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Code Quiz</title>
+        <link rel="stylesheet" href="./assets/style.css" />
+    </head>
+    
+    <body>
+        <header>
+            <div id="nav">
+                <h3 id="vw_hs">View Highscores</h3>
+                <h3 id="vw_tm">Time:</h3>
+            </div>
+        </header>
+        <main>
+            <div id="start" style="display:none;">
+                <h2>Start Quiz</h2>
+                <button id="start_btn">Start!</button>
+            </div>
+    
+            <div id="quiz" style="display:none;">
+                <h2 id="question">Question</h2>
+                
+                <button id="opt_1">option 1</button>
+                <button id="opt_2">option 2</button>
+                <button id="opt_3">option 3</button>
+                <button id="opt_4">option 4</button>
+                
+                <div id="answer" style="display: none;">
+                    <hr color="grey">
+                    <h3 id="state">Correct!</h3>
+                </div>
+
+            </div>
+            <div id="user" style="display:none;">
+                <h2>All Done!</h2>
+                <p>you final score is...</p>
+                <div id="initials">
+                    <p class="user_form">Enter initial</p>
+                    <input class="user_form" id="user-initial" placeholder="Enter Initials"></input>
+                    <button class="user_form" type="submit" id="user-submit">Submit</button>
+                </div>
+            </div>
+            <div id="highscore" style="display:none;">
+                <h2>Highscores</h2>
+                <ul id="hs_list">
+                    
+                </ul>
+                <div>
+                    <button id="restart">Go Back</button>
+                    <button id="clear">Clear Scores</button>
+                </div>
+            </div>
+        </main>
+         <script src="./assets/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+
+html,
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+header{
+    width: 100%;
+}
+
+#nav{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#nav h3{
+    margin: 15px 15px 0px 15px;
+}
+#vw_hs{
+    color: blueviolet;
+}
+#vw_hs:hover{
+    color: blue;
+    cursor: pointer;
+}
+main {
+    height: fit-content;
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 15% 0 0 0;
+    padding: 0;
+}
+  
+#start{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#quiz{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+#quiz h2{
+    align-self: center;
+}
+#quiz button{
+    width: fit-content;
+    align-self: left;
+    margin-left: 10%;
+}
+#quiz hr{
+    margin-top: 15px;
+    display:block;
+}
+#quiz #state{
+    color: grey;
+}
+#quiz button{
+    margin-bottom: 15px;
+}
+#user{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#initials{
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    gap: 5px;
+}
+#initials p{
+    margin: 0;
+}
+#highscore{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+#highscore  ul{
+    width: 50%;
+    list-style: none;
+    padding-inline-start: 0;
+}
+#highscore  ul li{
+    margin: 2px;
+    background-color: pink;
+}
+
+button{
+    width: fit-content;
+    color: antiquewhite;
+    background-color: blueviolet;
+    border: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;   
+}
