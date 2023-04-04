@@ -23,7 +23,7 @@ header{
     color: blueviolet;
 }
 #vw_hs:hover{
-    color: blue;
+    color: purple;
     cursor: pointer;
 }
 main {
@@ -33,30 +33,32 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 15% 0 0 0;
+    margin: 5% 0 0 0;
     padding: 0;
 }
   
 #start{
-    width: 60%;
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
+#start p{
+    text-align: center;
+}
 #quiz{
-    width: 60%;
+    width: 50%;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     flex-direction: column;
 }
 #quiz h2{
-    align-self: center;
+    align-self: left;
 }
 #quiz button{
     width: fit-content;
     align-self: left;
-    margin-left: 10%;
 }
 #quiz hr{
     margin-top: 15px;
@@ -69,10 +71,10 @@ main {
     margin-bottom: 15px;
 }
 #user{
-    width: 60%;
+    width: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: self-start;
     flex-direction: column;
 }
 
@@ -86,20 +88,29 @@ main {
     margin: 0;
 }
 #highscore{
-    width: 40%;
+    width: 50%;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
+    align-items: self-start;
 }
 #highscore  ul{
-    width: 50%;
-    list-style: none;
+    width: 100%;
+    list-style:none;
     padding-inline-start: 0;
 }
 #highscore  ul li{
     margin: 2px;
     background-color: pink;
+}
+#highscore #isClear{
+    width: 100%;
+}
+#highscore hr {
+    width: 100%;
+    margin-top: 15px;
+    display:block;
+
 }
 
 button{
@@ -109,4 +120,7 @@ button{
     border: none;
     border: 1px solid #ccc;
     border-radius: 5px;   
+}
+button:hover{
+    background-color: purple;
 }

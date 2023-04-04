@@ -18,12 +18,13 @@ var doc_state = document.querySelector("#state");
 var doc_intial = document.querySelector("#user");
 var doc_score = document.querySelector("#user_score");
 var txt_intial = document.querySelector("#user-initial");
-var btn_submit = document.querySelector("#user-submit");
+var btn_submit = document.querySelector("#initials");
 
 var doc_highscore = document.querySelector("#highscore");
 var list_score = document.querySelector("#hs_list");
 var btn_restart = document.querySelector("#restart");
 var btn_clear = document.querySelector("#clear");
+var doc_isclear = document.querySelector("#isClear");
 
 var active_doc ;
 
@@ -61,6 +62,9 @@ var score=0;
 var time_score=60;
 var final_score=0;
 var scoretimer;
+
+var std_scores = [];
+
 view_time.textContent = "Time: "+time_score
 
 doc_start.setAttribute("style", "display:flex;");
@@ -78,10 +82,10 @@ btn_opt1.addEventListener("click", function(event){
     if(questions[0] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
         score = score+10;
-        time_score = time_score + 7;
+        time_score = time_score + 10;
     }else{
         doc_state.textContent = "Wrong :c";
-        time_score = time_score - 7;
+        time_score = time_score - 10;
     }
 
     sleep();
@@ -90,10 +94,10 @@ btn_opt2.addEventListener("click", function(event){
     if(questions[1] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
         score = score+10;
-        time_score = time_score + 7;
+        time_score = time_score + 10;
     }else{
         doc_state.textContent = "Wrong :c";
-        time_score = time_score - 7;
+        time_score = time_score - 10;
     }
     sleep();
 
@@ -102,10 +106,10 @@ btn_opt3.addEventListener("click", function(event){
     if(questions[2] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
         score = score+10;
-        time_score = time_score + 7;
+        time_score = time_score + 10;
     }else{
         doc_state.textContent = "Wrong :c";
-        time_score = time_score - 7;
+        time_score = time_score - 10;
     }
     sleep();
 });
@@ -113,27 +117,46 @@ btn_opt4.addEventListener("click", function(event){
     if(questions[3] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
         score = score+10;
-        time_score = time_score + 7;
+        time_score = time_score + 10;
     }else{
         doc_state.textContent = "Wrong :c";
-        time_score = time_score - 7;
+        time_score = time_score - 10;
     }
     sleep();
 });
-btn_submit.addEventListener("click", function(event){
-    var initials = txt_intial.value;
-    console.log(initials);
+
+btn_submit.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    var initials = txt_intial.value.trim();
+    var local_scores = final_score;
+
+    std_scores =JSON.parse(localStorage.getItem("highscore"));
+
+    if(std_scores==null){
+        std_scores = [];
+    }
+    let newscore = {user_initials: initials, user_score:local_scores}
+    std_scores.push(newscore);
+
+
+    localStorage.setItem("highscore", JSON.stringify(std_scores));
 
     doc_intial.setAttribute("style", "display:none;");
-    doc_highscore.setAttribute("style", "display:flex;");
+    doc_highscore.setAttribute("style", "display:flex;");    
     active_doc = doc_highscore;
+    txt_intial.value = "";
+    
+    render_score();
 
 });
 view_score.addEventListener("click", function(event){
+    event.preventDefault();
+
     active_doc.setAttribute("style","display:none;");
     doc_highscore.setAttribute("style","display:flex;");
     active_doc = doc_highscore;
-
+    render_score();
     clearInterval(scoretimer);
 });
 btn_restart.addEventListener("click", function(event){
@@ -143,7 +166,10 @@ btn_restart.addEventListener("click", function(event){
     restartquiz();
 });
 btn_clear.addEventListener("click", function(){
+    localStorage.clear();
 
+    sleepclear();
+    render_score();
 });
 
 function setQuestion(){
@@ -167,7 +193,18 @@ function setQuestion(){
     btn_opt4.textContent = questions[3];
 
 }
-
+function sleepclear(){
+    var timeLeft = 1;
+    doc_isclear.setAttribute("style", "display:block;");
+    var timeInterval = setInterval(function () {
+        if(timeLeft==0){
+            doc_isclear.setAttribute("style", "display:none;");
+            clearInterval(timeInterval)
+        }          
+        timeLeft--;
+    },1000);
+    
+}
 function sleep(){
     var timeLeft = 1;
     doc_answer.setAttribute("style", "display:block;");
@@ -183,7 +220,6 @@ function sleep(){
         setQuestion();
     }else{
         clearInterval(scoretimer);
-        console.log("Out");
         doc_quiz.setAttribute("style", "display:none;");
         doc_intial.setAttribute("style", "display:flex;");
         active_doc=doc_intial;
@@ -204,15 +240,41 @@ function start_timer(){
         time_score--;
     },1000);    
 }
+function store_score(initials,final_score){
+    
+}
+function render_score(){
+    std_scores =JSON.parse(localStorage.getItem("highscore"));
+    list_score.innerHTML="";
+
+    if(std_scores!==null){
+
+        var limit;
+        if(std_scores.length<5){
+            limit = std_scores.length;
+        }else{
+            limit=5;
+        }
+        for(var i=0;i<limit ;i++){
+            var aux_scores = (i+1)+". "+std_scores[i].user_initials+" - "+std_scores[i].user_score;
+            
+            var li = document.createElement("li");
+
+            li.textContent = aux_scores;
+            li.setAttribute("data-index", i);
+            list_score.appendChild(li);   
+        }  
+    }   
+
+}
 function restartquiz(){
     act_q = 0;
-    
-    
+        
     score=0;
     time_score=60;
     final_score=0;    
 
-    view_time.textContent = "Time: "+time_score
+    view_time.textContent = "Time: "+time_score;
     clearInterval(scoretimer);
-
 }
+

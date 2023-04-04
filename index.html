@@ -17,8 +17,9 @@
         </header>
         <main>
             <div id="start" style="display:none;">
-                <h2>Start Quiz</h2>
-                <button id="start_btn">Start!</button>
+                <h2>Coding Quiz Challenge</h2>
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your scoretime by ten seconds.</p>
+                <button id="start_btn">Start Quiz</button>
             </div>
     
             <div id="quiz" style="display:none;">
@@ -38,11 +39,11 @@
             <div id="user" style="display:none;">
                 <h2>All Done!</h2>
                 <p id="user_score">Final Score: </p>
-                <div id="initials">
+                <form id="initials">
                     <p class="user_form">Enter initial</p>
                     <input class="user_form" id="user-initial" placeholder="Enter Initials"></input>
                     <button class="user_form" type="submit" id="user-submit">Submit</button>
-                </div>
+                </form>
             </div>
             <div id="highscore" style="display:none;">
                 <h2>Highscores</h2>
@@ -52,6 +53,10 @@
                 <div>
                     <button id="restart">Go Back</button>
                     <button id="clear">Clear Scores</button>
+                </div>
+                <div id="isClear" style="display: none;">
+                    <hr color="grey">
+                    <h3>Cleared Scores!</h3>
                 </div>
             </div>
         </main>
