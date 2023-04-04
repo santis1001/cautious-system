@@ -22,4 +22,6 @@ THEN I can save my initials and my score
 
 # Screenshots
 
+# Video
+
 # Pages Link
