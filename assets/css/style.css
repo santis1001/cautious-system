@@ -59,6 +59,8 @@ main {
 #quiz button{
     width: fit-content;
     align-self: left;
+    margin-bottom: 15px;
+
 }
 #quiz hr{
     margin-top: 15px;
@@ -67,9 +69,7 @@ main {
 #quiz #state{
     color: grey;
 }
-#quiz button{
-    margin-bottom: 15px;
-}
+
 #user{
     min-width: 450px;
     max-width: 40%;

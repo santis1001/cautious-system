@@ -1,3 +1,6 @@
+//Initialize HTML elements variables
+var doc_nav = document.querySelector("#nav");
+
 var view_score = document.querySelector("#vw_hs");
 var view_time = document.querySelector("#vw_tm");
 
@@ -28,6 +31,7 @@ var doc_isclear = document.querySelector("#isClear");
 
 var active_doc ;
 
+//Questions Banks, Options and Answer.
 var q1 = {
     question:"What is the syntax for declaring a variable in JavaScript?",
     options:["let myLet = 10","const myConst = 10","All of the above"],
@@ -54,22 +58,24 @@ var q5 = {
     answer:"function"
 };
 
+//Global Variables
+//Questions object array
 var qs = [q1, q2, q3, q4, q5];
 var act_q = 0;
 var questions ;
-
+//Global usable varibales
 var score=0;
 var time_score=60;
 var final_score=0;
 var scoretimer;
-
 var std_scores = [];
-
 view_time.textContent = "Time: "+time_score
-
+//Display the Start Quiz screen
 doc_start.setAttribute("style", "display:flex;");
 active_doc = doc_start;
 
+//start quiz button, hides start quiz and displays the question conten screen
+//call the timer function 
 btn_start.addEventListener("click", function (event) {
     doc_start.setAttribute("style", "display:none;");
     doc_quiz.setAttribute("style", "display:flex;");
@@ -78,6 +84,7 @@ btn_start.addEventListener("click", function (event) {
     start_timer();
 });
 
+//Quiz answer options, compares its variable with the actual cuestion object answer
 btn_opt1.addEventListener("click", function(event){
     if(questions[0] == qs[act_q].answer){
         doc_state.textContent = "Correct!";
@@ -88,7 +95,7 @@ btn_opt1.addEventListener("click", function(event){
         time_score = time_score - 10;
     }
 
-    sleep();
+    hr_state();
 });
 btn_opt2.addEventListener("click", function(event){
     if(questions[1] == qs[act_q].answer){
@@ -99,7 +106,7 @@ btn_opt2.addEventListener("click", function(event){
         doc_state.textContent = "Wrong :c";
         time_score = time_score - 10;
     }
-    sleep();
+    hr_state();
 
 });
 btn_opt3.addEventListener("click", function(event){
@@ -111,7 +118,7 @@ btn_opt3.addEventListener("click", function(event){
         doc_state.textContent = "Wrong :c";
         time_score = time_score - 10;
     }
-    sleep();
+    hr_state();
 });
 btn_opt4.addEventListener("click", function(event){
     if(questions[3] == qs[act_q].answer){
@@ -122,56 +129,69 @@ btn_opt4.addEventListener("click", function(event){
         doc_state.textContent = "Wrong :c";
         time_score = time_score - 10;
     }
-    sleep();
+    hr_state();
 });
 
+//User initials screen
+//this button will retract the values of the initials and score to stored them in the localStorage
+//this event will display the highscore screen, and render the scores into the <ul> element
 btn_submit.addEventListener("submit", function(event){
     event.preventDefault();
 
     var initials = txt_intial.value.trim();
     var local_scores = final_score;
+    if(initials!=""){
+        std_scores =JSON.parse(localStorage.getItem("highscore"));
 
-    std_scores =JSON.parse(localStorage.getItem("highscore"));
-
-    if(std_scores==null){
-        std_scores = [];
-    }
-    let newscore = {user_initials: initials, user_score:local_scores}
-    std_scores.push(newscore);
-
-
-    localStorage.setItem("highscore", JSON.stringify(std_scores));
-
-    doc_intial.setAttribute("style", "display:none;");
-    doc_highscore.setAttribute("style", "display:flex;");    
-    active_doc = doc_highscore;
-    txt_intial.value = "";
+        if(std_scores==null){
+            std_scores = [];
+        }
+        let newscore = {user_initials: initials, user_score:local_scores}
+        std_scores.push(newscore);
     
-    render_score();
-
+    
+        localStorage.setItem("highscore", JSON.stringify(std_scores));
+    
+        doc_intial.setAttribute("style", "display:none;");
+        doc_highscore.setAttribute("style", "display:flex;"); 
+        doc_nav.setAttribute("style", "display:none;");
+       
+        active_doc = doc_highscore;
+        txt_intial.value = "";
+        
+        render_score();    
+    }    
 });
+//this event is trigger with the View Highscore in the nav bar
+//this event will display the highscore screen, and render the scores into the <ul> element
 view_score.addEventListener("click", function(event){
     event.preventDefault();
 
     active_doc.setAttribute("style","display:none;");
     doc_highscore.setAttribute("style","display:flex;");
+    doc_nav.setAttribute("style", "display:none;");
+
     active_doc = doc_highscore;
     render_score();
     clearInterval(scoretimer);
 });
+//this event will reset the globar usable variables and display the Start quiz screen
 btn_restart.addEventListener("click", function(event){
     doc_highscore.setAttribute("style","display:none;");
     doc_start.setAttribute("style","display:flex;");
+    doc_nav.setAttribute("style", "display:flex;");
+
     active_doc = doc_start;
     restartquiz();
 });
+//this event will clear the localStorage and re-render the scores
 btn_clear.addEventListener("click", function(){
     localStorage.clear();
 
-    sleepclear();
+    hr_state_clear();
     render_score();
 });
-
+//this function sets the values to the question content html elements
 function setQuestion(){
     
     var question = qs[act_q].question 
@@ -191,9 +211,9 @@ function setQuestion(){
     btn_opt2.textContent = questions[1];
     btn_opt3.textContent = questions[2];
     btn_opt4.textContent = questions[3];
-
 }
-function sleepclear(){
+//this function shows a message when the localStorage is cleared
+function hr_state_clear(){
     var timeLeft = 1;
     doc_isclear.setAttribute("style", "display:block;");
     var timeInterval = setInterval(function () {
@@ -205,7 +225,12 @@ function sleepclear(){
     },1000);
     
 }
-function sleep(){
+//this function shows a message when a option is selected
+//shows if the option selected was correct or wrong
+//validates in which question the quiz is actually established
+//once all the questions were traveled the question content screen is closed and the user initial is displayed
+//the final score variables is calculated
+function hr_state(){
     var timeLeft = 1;
     doc_answer.setAttribute("style", "display:block;");
     var timeInterval = setInterval(function () {
@@ -216,7 +241,7 @@ function sleep(){
         timeLeft--;
     },1000);
     act_q++;
-    if(act_q<5){
+    if(act_q<qs.length){
         setQuestion();
     }else{
         clearInterval(scoretimer);
@@ -227,6 +252,8 @@ function sleep(){
         doc_score.textContent = "Final Score: "+final_score;
     }
 }
+//this function start the quiz timer
+//when the timer get down to 0 the question content is forced to close, and open the user initial input screen
 function start_timer(){
     
     scoretimer = setInterval(function () {
@@ -240,9 +267,12 @@ function start_timer(){
         time_score--;
     },1000);    
 }
-function store_score(initials,final_score){
-    
-}
+//this function renders the score list and display it into the <ul> element
+//get the list from the localStorage
+//sets the limit to 5 or the length of the list if less than 5
+//sort the list from gratest to least
+//creates the <li> element with the user initials and score in the textContent  
+// appends <li> to <ul>
 function render_score(){
     std_scores =JSON.parse(localStorage.getItem("highscore"));
     list_score.innerHTML="";
@@ -255,6 +285,8 @@ function render_score(){
         }else{
             limit=5;
         }
+        std_scores.sort((a, b) => b.user_score - a.user_score);
+
         for(var i=0;i<limit ;i++){
             var aux_scores = (i+1)+". "+std_scores[i].user_initials+" - "+std_scores[i].user_score;
             
@@ -265,8 +297,8 @@ function render_score(){
             list_score.appendChild(li);   
         }  
     }   
-
 }
+//this functions resets the usable variables to redo the quiz
 function restartquiz(){
     act_q = 0;
         
